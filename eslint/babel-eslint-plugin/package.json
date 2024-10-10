@@ -1,11 +1,15 @@
 {
   "name": "@babel/eslint-plugin",
-  "version": "7.25.1",
+  "version": "7.25.7",
   "description": "Companion rules for @babel/eslint-parser",
   "main": "./lib/index.cjs",
   "type": "module",
+  "types": "./types.d.cts",
   "exports": {
-    ".": "./lib/index.cjs",
+    ".": {
+      "default": "./lib/index.cjs",
+      "types": "./types.d.cts"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {

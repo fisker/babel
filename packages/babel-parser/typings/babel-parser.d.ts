@@ -1,5 +1,5 @@
 // This file is auto-generated! Do not modify it directly.
-/* eslint-disable @typescript-eslint/consistent-type-imports, @typescript-eslint/no-redundant-type-constituents, prettier/prettier */
+/* eslint-disable @typescript-eslint/consistent-type-imports, @typescript-eslint/no-redundant-type-constituents */
 import * as _babel_types from '@babel/types';
 
 type BABEL_8_BREAKING = false;
@@ -29,6 +29,7 @@ type Plugin =
   | "functionSent"
   | "importMeta"
   | "jsx"
+  | IF_BABEL_7<"jsonStrings">
   | IF_BABEL_7<"logicalAssignment">
   | IF_BABEL_7<"importAssertions">
   | IF_BABEL_7<"importReflection">
@@ -68,7 +69,9 @@ interface DecoratorsPluginOptions {
 }
 
 interface PipelineOperatorPluginOptions {
-  proposal: "minimal" | "fsharp" | "hack" | "smart";
+  proposal: BABEL_8_BREAKING extends false
+    ? "minimal" | "fsharp" | "hack" | "smart"
+    : "fsharp" | "hack";
   topicToken?: "%" | "#" | "@@" | "^^" | "^";
 }
 
@@ -76,10 +79,14 @@ interface RecordAndTuplePluginOptions {
   syntaxType: "bar" | "hash";
 }
 
-interface FlowPluginOptions {
-  all?: boolean;
-  enums?: boolean;
-}
+type FlowPluginOptions = BABEL_8_BREAKING extends true
+  ? {
+      all?: boolean;
+      enums?: boolean;
+    }
+  : {
+      all?: boolean;
+    };
 
 interface TypeScriptPluginOptions {
   dts?: boolean;

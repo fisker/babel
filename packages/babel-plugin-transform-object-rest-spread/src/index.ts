@@ -189,7 +189,11 @@ export default declare((api, opts: Options) => {
     path: NodePath<t.ObjectPattern>,
     file: PluginPass,
     objRef: t.Identifier | t.MemberExpression,
-  ): [t.VariableDeclarator[], t.LVal, t.CallExpression] {
+  ): [
+    t.VariableDeclarator[],
+    t.AssignmentExpression["left"],
+    t.CallExpression,
+  ] {
     const props = path.get("properties");
     const last = props[props.length - 1];
     t.assertRestElement(last.node);
@@ -299,11 +303,9 @@ export default declare((api, opts: Options) => {
 
   return {
     name: "transform-object-rest-spread",
-    inherits:
-      USE_ESM || IS_STANDALONE || api.version[0] === "8"
-        ? undefined
-        : // eslint-disable-next-line no-restricted-globals
-          require("@babel/plugin-syntax-object-rest-spread").default,
+    manipulateOptions: process.env.BABEL_8_BREAKING
+      ? undefined
+      : (_, parser) => parser.plugins.push("objectRestSpread"),
 
     visitor: {
       // function a({ b, ...c }) {}

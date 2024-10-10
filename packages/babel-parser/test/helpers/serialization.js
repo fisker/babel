@@ -20,7 +20,6 @@ const toBigInt = global.BigInt || (() => null);
 
 const SerializationKey = "$$ babel internal serialized type";
 
-/* eslint-disable no-confusing-arrow */
 export const deserialize = (filename, options, string) =>
   withErrors(
     options.throws,
@@ -68,7 +67,7 @@ function withErrors(throws, ast) {
 // we can test that too.
 const ErrorPrefixRegExp = /^[A-Za-z]*Error:\s/;
 const toError = message =>
-  /^Error/.test(message.replace(ErrorPrefixRegExp, ""))
+  message.replace(ErrorPrefixRegExp, "").startsWith("Error")
     ? Error(message.replace(ErrorPrefixRegExp, ""))
     : SyntaxError(message.replace(ErrorPrefixRegExp, ""));
 

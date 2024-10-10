@@ -77,6 +77,11 @@ export default declare(api => {
 
       path.traverse(yieldStarVisitor, state);
 
+      path.setData(
+        "@babel/plugin-transform-async-generator-functions/async_generator_function",
+        true,
+      );
+
       // We don't need to pass the noNewArrows assumption, since
       // async generators are never arrow functions.
       remapAsyncToGenerator(path, {
@@ -88,11 +93,10 @@ export default declare(api => {
 
   return {
     name: "transform-async-generator-functions",
-    inherits:
-      USE_ESM || IS_STANDALONE || api.version[0] === "8"
-        ? undefined
-        : // eslint-disable-next-line no-restricted-globals
-          require("@babel/plugin-syntax-async-generators").default,
+
+    manipulateOptions: process.env.BABEL_8_BREAKING
+      ? undefined
+      : (_, parser) => parser.plugins.push("asyncGenerators"),
 
     visitor: {
       Program(path, state) {
