@@ -7,6 +7,7 @@
   "include": [
     "./src/**/*.ts",
     "./src/**/*.cts",
+    "./data/**/*.ts",
     "./scripts/**/*.ts",
     "../../lib/globals.d.ts",
     "../../scripts/repo-utils/*.d.ts"
